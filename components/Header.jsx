@@ -18,9 +18,11 @@ const Header = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                SRS CAR
+                SRS Travels
               </h1>
-              <p className="text-xs text-gray-300 -mt-1">Premium Rentals</p>
+              <p className="text-xs text-gray-300 -mt-1">
+                (car rental service)
+              </p>
             </div>
           </div>
 
