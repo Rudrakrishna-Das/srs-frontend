@@ -11,48 +11,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import EnquiryDetails from "./EnquiryDetails";
 
-const MINIMUMHOUR = 10;
-const MINIMUMKM = 10;
-const HOURLYRATE = 200;
-const KMRATE = 300;
-
 const MainBody = () => {
-  const [selectedTypes, setSelectedTypes] = useState({});
-  const [selectHour, setSelectHour] = useState({});
-  const [selectKm, setSelectKm] = useState({});
-
-  const getSelectedType = (carId) => selectedTypes[carId] || "hourly";
-
-  const getButtonStyle = (type, carId) => {
-    const isSelected = getSelectedType(carId) === type;
-    return isSelected
-      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white scale-105 shadow-lg shadow-blue-500/50"
-      : "bg-gray-800/50 border border-gray-700 text-gray-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 hover:border-blue-500/50";
-  };
-
-  const handleTypeChange = (type, carId) => {
-    setSelectedTypes((prev) => ({ ...prev, [carId]: type }));
-
-    if (type === "hourly") {
-      setSelectKm((prev) => ({ ...prev, [carId]: "" }));
-    } else if (type === "km") {
-      setSelectHour((prev) => ({ ...prev, [carId]: "" }));
-    }
-  };
-
-  const calculateExtraCost = (carId) => {
-    const selectedType = getSelectedType(carId);
-    const hourValue = parseFloat(selectHour[carId]) || 0;
-    const kmValue = parseFloat(selectKm[carId]) || 0;
-
-    if (selectedType === "hourly" && hourValue > MINIMUMHOUR) {
-      return (hourValue - MINIMUMHOUR) * HOURLYRATE;
-    } else if (selectedType === "km" && kmValue > MINIMUMKM) {
-      return (kmValue - MINIMUMKM) * KMRATE;
-    }
-    return 0;
-  };
-
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -113,9 +72,6 @@ const MainBody = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {allCarsWithDetails.map((car) => {
-            const selectedType = getSelectedType(car.id);
-            const extraCost = calculateExtraCost(car.id);
-
             return (
               <div
                 key={car.id}
@@ -140,156 +96,46 @@ const MainBody = () => {
                   >
                     {car.images.map((img) => (
                       <SwiperSlide key={img.id}>
-                        <div className="relative h-full">
-                          <img
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            src={img.url}
-                            alt={`${car.name} - Image ${img.id}`}
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                        </div>
+                        <img
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          src={img.url}
+                          alt={`${car.name} - Image ${img.id}`}
+                        />
                       </SwiperSlide>
                     ))}
                   </Swiper>
                 </div>
 
-                {/* Enhanced Card Content */}
-                <div className="p-6 space-y-6">
-                  {/* Car Title and Features */}
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300">
-                      {car.name}
-                    </h3>
-                    <div className="flex items-center space-x-4 text-sm text-gray-400">
-                      <div className="flex items-center space-x-1">
-                        <Clock className="w-4 h-4" />
-                        <span>Available 24/7</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <MapPin className="w-4 h-4" />
-                        <span>Free Pickup</span>
-                      </div>
-                    </div>
+                {/* Card Content */}
+                <div className="p-6 space-y-4">
+                  <h3 className="text-2xl font-semibold text-white group-hover:text-blue-400 transition duration-300">
+                    {car.name}
+                  </h3>
+
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <Clock className="w-4 h-4" />
+                    <span>Available 24/7</span>
                   </div>
 
-                  {/* Enhanced Type Selection */}
-                  <div className="space-y-3">
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleTypeChange("hourly", car.id)}
-                        className={`flex-1 ${getButtonStyle(
-                          "hourly",
-                          car.id
-                        )} cursor-pointer font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden`}
-                      >
-                        <div className="relative z-10 flex items-center justify-center space-x-2">
-                          <Clock className="w-4 h-4" />
-                          <span>Hourly</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => handleTypeChange("km", car.id)}
-                        className={`flex-1 ${getButtonStyle(
-                          "km",
-                          car.id
-                        )} cursor-pointer font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden`}
-                      >
-                        <div className="relative z-10 flex items-center justify-center space-x-2">
-                          <MapPin className="w-4 h-4" />
-                          <span>Per KM</span>
-                        </div>
-                      </button>
+                  <div className="bg-gray-800/40 backdrop-blur-md rounded-xl p-4 border border-gray-700 space-y-2">
+                    <div className="text-lg text-gray-300">
+                      <span className="font-bold text-green-400">
+                        ₹{car.perKm}
+                      </span>{" "}
+                      / KM
                     </div>
-                  </div>
-
-                  {/* Enhanced Price and Input Section */}
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-700">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="space-y-1">
-                        <div className="text-4xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-                          ₹{parseFloat(car.price) + extraCost}
-                        </div>
-                        <div className="text-sm text-gray-400">
-                          {selectedType === "hourly" ? "per hour" : "per km"}
-                        </div>
-                      </div>
-
-                      <div className="relative">
-                        <input
-                          type="number"
-                          min="0"
-                          className="w-24 p-3 bg-gray-700/50 backdrop-blur-sm text-white rounded-xl border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 text-center"
-                          placeholder={
-                            selectedType === "hourly" ? "Hours" : "KM"
-                          }
-                          value={
-                            selectedType === "hourly"
-                              ? selectHour[car.id] || ""
-                              : selectKm[car.id] || ""
-                          }
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (selectedType === "hourly") {
-                              setSelectHour((prev) => ({
-                                ...prev,
-                                [car.id]: value,
-                              }));
-                            } else {
-                              setSelectKm((prev) => ({
-                                ...prev,
-                                [car.id]: value,
-                              }));
-                            }
-                          }}
-                        />
-                      </div>
+                    <div className="text-lg text-gray-300">
+                      <span className="font-bold text-green-400">
+                        ₹{car.perHour}
+                      </span>{" "}
+                      / Hour
                     </div>
-
-                    {/* Enhanced Cost Breakdown */}
-                    <div className="text-sm bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-3 rounded-xl border border-blue-500/20">
-                      {selectedType === "hourly" ? (
-                        <>
-                          {selectHour[car.id] > MINIMUMHOUR ? (
-                            <div className="text-blue-300">
-                              <span className="font-semibold">Extra cost:</span>{" "}
-                              {selectHour[car.id] - MINIMUMHOUR} hour(s) × ₹
-                              {HOURLYRATE} = ₹
-                              {(selectHour[car.id] - MINIMUMHOUR) * HOURLYRATE}
-                            </div>
-                          ) : (
-                            <div className="text-green-300">
-                              <span className="font-semibold">Included:</span>{" "}
-                              Minimum {MINIMUMHOUR} hours booking
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {selectKm[car.id] > MINIMUMKM ? (
-                            <div className="text-blue-300">
-                              <span className="font-semibold">Extra cost:</span>{" "}
-                              {selectKm[car.id] - MINIMUMKM} KM × ₹{KMRATE} = ₹
-                              {(selectKm[car.id] - MINIMUMKM) * KMRATE}
-                            </div>
-                          ) : (
-                            <div className="text-green-300">
-                              <span className="font-semibold">Included:</span>{" "}
-                              Up to {MINIMUMKM} KM covered
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Enhanced Description */}
-                  <p className="text-gray-300 text-sm leading-relaxed bg-gray-800/30 p-4 rounded-xl border border-gray-700">
-                    {car.description}
-                  </p>
-
-                  {/* Enhanced Action Button */}
-                  <div className="pt-2">
-                    <EnquiryDetails phone={car.phone} />
+                    <p className="text-sm text-gray-400 pt-2">
+                      <span className="text-blue-400 font-medium">Note:</span>{" "}
+                      After 100 hours, per KM rate applies. <br />
+                      <span className="text-purple-400">Call:</span> +91
+                      8945521525
+                    </p>
                   </div>
                 </div>
 
