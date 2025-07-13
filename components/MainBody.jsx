@@ -133,8 +133,8 @@ const MainBody = () => {
                     <p className="text-sm text-gray-400 pt-2">
                       <span className="text-blue-400 font-medium">Note:</span>{" "}
                       After 100 hours, per KM rate applies. <br />
-                      <span className="text-purple-400">Call:</span> +91
-                      8945521525
+                      <span className="text-purple-400">Call:</span> +91 91632
+                      17163 / +91 86976 58950
                     </p>
                   </div>
                 </div>
