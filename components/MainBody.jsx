@@ -132,7 +132,8 @@ const MainBody = () => {
                     </div>
                     <p className="text-sm text-gray-400 pt-2">
                       <span className="text-blue-400 font-medium">Note:</span>{" "}
-                      After 100 hours, per KM rate applies. <br />
+                      Hourly Rates provided until 100kms and a minimum of
+                      10hours. <br />
                       <span className="text-purple-400">Call:</span> +91 91632
                       17163 / +91 86976 58950
                     </p>
