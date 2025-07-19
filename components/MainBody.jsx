@@ -130,13 +130,31 @@ const MainBody = () => {
                       </span>{" "}
                       / Hour
                     </div>
-                    <p className="text-sm text-gray-400 pt-2">
-                      <span className="text-blue-400 font-medium">Note:</span>{" "}
-                      Hourly Rates provided until 100kms and a minimum of
-                      10hours. <br />
-                      <span className="text-purple-400">Call:</span> +91 91632
-                      17163 / +91 86976 58950
-                    </p>
+
+                    <div className="text-sm text-gray-400 pt-2 space-y-1 ">
+                      <p>
+                        <span className="text-blue-400 font-medium">Note:</span>{" "}
+                        Hourly Rates provided until 100kms and a minimum of 10
+                        hours.
+                      </p>
+                      <div className="flex items-center gap-4 flex-wrap ">
+                        <a
+                          href="tel:+919163217163"
+                          className="flex items-center text-blue-300 hover:underline"
+                        >
+                          <Phone className="mr-2" size={18} />
+                          +91 91632 17163
+                        </a>
+
+                        <a
+                          href="tel:+916289186735"
+                          className="flex items-center text-blue-300 hover:underline"
+                        >
+                          <Phone className="mr-2" size={18} />
+                          +91 62891 86735
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
