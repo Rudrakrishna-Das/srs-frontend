@@ -116,20 +116,26 @@ const MainBody = () => {
                     <Clock className="w-4 h-4" />
                     <span>Available 24/7</span>
                   </div>
+                  <span>Rates will differ in peak season and availability</span>
 
                   <div className="bg-gray-800/40 backdrop-blur-md rounded-xl p-4 border border-gray-700 space-y-2">
-                    <div className="text-lg text-gray-300">
-                      <span className="font-bold text-green-400">
-                        ₹{car.perKm}
-                      </span>{" "}
-                      / KM
-                    </div>
-                    <div className="text-lg text-gray-300">
-                      <span className="font-bold text-green-400">
-                        ₹{car.perHour}
-                      </span>{" "}
-                      / Hour
-                    </div>
+                    {car.perKm < 20 && (
+                      <div className="flex justify-around">
+                        <div className="text-lg text-gray-300">
+                          <span className="font-bold text-green-400">
+                            ₹{car.perKm}
+                          </span>
+                          / KM
+                        </div>
+
+                        <div className="text-lg text-gray-300">
+                          <span className="font-bold text-green-400">
+                            ₹{car.perHour}
+                          </span>{" "}
+                          / Hour
+                        </div>
+                      </div>
+                    )}
 
                     <div className="text-sm text-gray-400 pt-2 space-y-1 ">
                       <p>
